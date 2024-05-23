@@ -1,16 +1,15 @@
-export const generateRandomDominos = (count) => {
-  try {
-    const dominoes = [];
-    for (let i = 0; i < count; i++) {
-      const arr1 = Math.floor(Math.random() * 7);
-      const arr2 = Math.floor(Math.random() * 7);
-      dominoes.push([arr1, arr2]);
-    }
-
-    return dominoes;
-  } catch (error) {
-    console.log(error);
-  }
+export const generateRandomDominos = () => {
+  // Array tetap yang akan digunakan untuk menghasilkan domino
+  return [
+    [6, 1],
+    [4, 3],
+    [5, 1],
+    [3, 4],
+    [1, 1],
+    [3, 4],
+    [1, 2],
+    [2, 2],
+  ];
 };
 
 export const sort = (dominoes, order = "asc") => {
@@ -34,11 +33,8 @@ export const sort = (dominoes, order = "asc") => {
 };
 
 export const countDoubleNumber = (dominoes) => {
-  // Menghitung jumlah domino yang memiliki angka ganda (double)
   try {
-    return dominoes.reduce((count, [a, b]) => {
-      return a === b ? count + 1 : count;
-    }, 0);
+    return dominoes.reduce((count, [a, b]) => (a === b ? count + 1 : count), 0);
   } catch (error) {
     console.log(error);
   }
@@ -80,14 +76,10 @@ export const removeCardsWithTotal = (dominoes, total) => {
   }
 };
 
-const testDominoes = [
-  [6, 2],
-  [2, 3],
-  [2, 0],
-  [1, 5],
-  [5, 1],
-  [3, 0],
-];
-
-const uniqueDominoes = removeDuplicates(testDominoes);
-console.log(uniqueDominoes);
+export const resetData = () => {
+  const defaultDominoes = generateRandomDominos();
+  return {
+    dominos: defaultDominoes,
+    sourceDominos: defaultDominoes,
+  };
+};

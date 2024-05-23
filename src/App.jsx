@@ -11,26 +11,20 @@ import {
 import {
   countDoubleNumber,
   flipDominos,
-  generateRandomDominos,
   removeCardsWithTotal,
   removeDuplicates,
+  resetData,
   sort,
 } from "./utils";
 import { useState } from "react";
 
 function App() {
-  const defaultDominos = generateRandomDominos(6);
-  const [dominos, setDominos] = useState(defaultDominos);
+  const { dominos: initialDominos, sourceDominos: initialSourceDominos } =
+    resetData();
+  const [dominos, setDominos] = useState(initialDominos);
   const [removeTotal, setRemoveTotal] = useState("");
-  const [sourceDominos, setSourceDominos] = useState(defaultDominos);
 
   const doubleCount = countDoubleNumber(dominos);
-
-  // Functional Button
-  const resetData = () => {
-    setDominos([...defaultDominos]);
-    setSourceDominos([...defaultDominos]);
-  };
 
   const sortAsc = () => setDominos(sort(dominos, "asc"));
   const sortDesc = () => setDominos(sort(dominos, "desc"));
@@ -50,6 +44,13 @@ function App() {
     }
   };
 
+  const handleReset = () => {
+    const { dominos: resetDominos, sourceDominos: resetSourceDominos } =
+      resetData();
+    setDominos(resetDominos);
+    setRemoveTotal("");
+  };
+
   return (
     <Box p={5}>
       <Heading>Dominoes</Heading>
@@ -59,10 +60,10 @@ function App() {
           <Text fontWeight="bold">Source</Text>
           <Text mt={5}>
             [
-            {sourceDominos.map(
+            {initialSourceDominos.map(
               (tile, index) =>
                 `[${tile[0]},${tile[1]}]${
-                  index < sourceDominos.length - 1 ? ", " : ""
+                  index < initialSourceDominos.length - 1 ? ", " : ""
                 }`
             )}
             ]
@@ -100,7 +101,7 @@ function App() {
         <Button colorScheme="blue" onClick={handleRemoveDuplicates}>
           Remove Dup
         </Button>
-        <Button colorScheme="blue" onClick={resetData}>
+        <Button colorScheme="blue" onClick={handleReset}>
           Reset
         </Button>
       </Flex>
